@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import Image from "next/image";
+
+interface Params {
+  params: { country: string };
+}
 
 const fetchCountryData = async (country: string) => {
   try {
@@ -14,8 +19,7 @@ const fetchCountryData = async (country: string) => {
   }
 };
 
-// ✅ Fix: No need for `PageProps`
-const CountryInfo = async ({ params }: { params: { country: string } }) => {
+const CountryInfo = async ({ params }: Params) => {
   const countryData = await fetchCountryData(params.country);
 
   if (!countryData) {
@@ -28,17 +32,15 @@ const CountryInfo = async ({ params }: { params: { country: string } }) => {
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-6 py-12">
-      {/* Background Image */}
       <div className="absolute inset-0 w-screen">
         <Image
-          src={countryData.flags.png}
+          src={countryData.flags.svg}
           alt={`${countryData.name.common} Flag`}
           fill
           className="object-cover opacity-30"
         />
       </div>
 
-      {/* Content Section */}
       <div className="relative z-10 max-w-4xl w-full bg-gray-800/60 backdrop-blur-xl rounded-2xl shadow-lg p-8">
         <div className="text-center">
           <h1 className="text-5xl sm:text-6xl font-extrabold">{countryData.name.common}</h1>

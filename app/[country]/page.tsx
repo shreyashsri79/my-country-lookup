@@ -14,7 +14,7 @@ const fetchCountryData = async (country: string) => {
   }
 };
 
-// ✅ Fix: Manually define `params`
+// ✅ Fix: No need for `PageProps`
 const CountryInfo = async ({ params }: { params: { country: string } }) => {
   const countryData = await fetchCountryData(params.country);
 
@@ -40,7 +40,6 @@ const CountryInfo = async ({ params }: { params: { country: string } }) => {
 
       {/* Content Section */}
       <div className="relative z-10 max-w-4xl w-full bg-gray-800/60 backdrop-blur-xl rounded-2xl shadow-lg p-8">
-        {/* Country Name */}
         <div className="text-center">
           <h1 className="text-5xl sm:text-6xl font-extrabold">{countryData.name.common}</h1>
           {countryData.name.official !== countryData.name.common && (
@@ -48,7 +47,6 @@ const CountryInfo = async ({ params }: { params: { country: string } }) => {
           )}
         </div>
 
-        {/* Country Details */}
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
           {[
             { label: "Capital", value: countryData.capital?.[0] || "N/A" },
@@ -76,7 +74,6 @@ const CountryInfo = async ({ params }: { params: { country: string } }) => {
           ))}
         </div>
 
-        {/* Flag Image */}
         <div className="mt-8 flex justify-center">
           <Image
             src={countryData.flags.svg}

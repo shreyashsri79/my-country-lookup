@@ -15,8 +15,8 @@ const SearchBar = () => {
         async function fetchCountries() {
             try {
                 const res = await fetch("https://restcountries.com/v3.1/all");
-                const json = await res.json();
-                const countryNames = json.map((country: any) => country.name.common);
+                const json: { name: { common: string } }[] = await res.json();  // Define type
+                const countryNames = json.map((country) => country.name.common);
                 setCountries(countryNames);
             } catch (error) {
                 console.error("Error fetching country list:", error);
@@ -24,6 +24,7 @@ const SearchBar = () => {
         }
         fetchCountries();
     }, []);
+    
 
     useEffect(() => {
         if (inputChanged && searchTerm.trim() !== "") {

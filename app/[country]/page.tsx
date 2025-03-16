@@ -8,7 +8,8 @@ const fetchCountryData = async (country: string) => {
     if (!response.ok) throw new Error("Country not found");
     const data = await response.json();
     return data[0];
-  } catch (_error) { // Fixed unused variable issue
+  } catch (error) {
+    console.log(error) // Fixed unused variable issue
     return null;
   }
 };

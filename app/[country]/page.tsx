@@ -1,9 +1,9 @@
-
+import { Metadata } from "next";
 import Image from "next/image";
 
-interface Params {
+type CountryPageProps = {
   params: { country: string };
-}
+};
 
 const fetchCountryData = async (country: string) => {
   try {
@@ -19,7 +19,7 @@ const fetchCountryData = async (country: string) => {
   }
 };
 
-const CountryInfo = async ({ params }: Params) => {
+const CountryInfo = async ({ params }: CountryPageProps) => {
   const countryData = await fetchCountryData(params.country);
 
   if (!countryData) {
@@ -34,7 +34,7 @@ const CountryInfo = async ({ params }: Params) => {
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-6 py-12">
       <div className="absolute inset-0 w-screen">
         <Image
-          src={countryData.flags.svg}
+          src={countryData.flags.png}
           alt={`${countryData.name.common} Flag`}
           fill
           className="object-cover opacity-30"

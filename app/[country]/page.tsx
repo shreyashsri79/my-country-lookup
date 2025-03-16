@@ -1,4 +1,3 @@
-import { PageProps } from "next"; // Import Next.js PageProps
 import Image from "next/image";
 
 const fetchCountryData = async (country: string) => {
@@ -10,15 +9,15 @@ const fetchCountryData = async (country: string) => {
     const data = await response.json();
     return data[0];
   } catch (error) {
-    console.log(error); // Fixed unused variable issue
+    console.error(error);
     return null;
   }
 };
 
-// ✅ Fix: Use `PageProps` for params
-const CountryInfo = async ({ params }: PageProps<{ country: string }>) => {
+// ✅ Fix: Manually define `params`
+const CountryInfo = async ({ params }: { params: { country: string } }) => {
   const countryData = await fetchCountryData(params.country);
-  
+
   if (!countryData) {
     return (
       <div className="h-screen flex items-center justify-center text-white bg-gray-900">
@@ -30,12 +29,12 @@ const CountryInfo = async ({ params }: PageProps<{ country: string }>) => {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-6 py-12">
       {/* Background Image */}
-      <div className="absolute inset-0 w-s">
+      <div className="absolute inset-0 w-screen">
         <Image
           src={countryData.flags.png}
           alt={`${countryData.name.common} Flag`}
           fill
-          className="object-cover opacity-30 w-screen"
+          className="object-cover opacity-30"
         />
       </div>
 

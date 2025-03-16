@@ -8,7 +8,7 @@ const fetchCountryData = async (country: string) => {
     if (!response.ok) throw new Error("Country not found");
     const data = await response.json();
     return data[0];
-  } catch (error) {
+  } catch (_error) { // Fixed unused variable issue
     return null;
   }
 };
@@ -55,13 +55,13 @@ const CountryInfo = async ({ params }: { params: { country: string } }) => {
             {
               label: "Currencies",
               value: countryData.currencies
-                ? Object.values(countryData.currencies).map((cur: any) => cur.name).join(", ")
+                ? Object.values(countryData.currencies).map((cur: { name: string }) => cur.name).join(", ")
                 : "N/A",
             },
             {
               label: "Languages",
               value: countryData.languages
-                ? Object.values(countryData.languages).join(", ")
+                ? Object.values(countryData.languages).map((lang: string) => lang).join(", ")
                 : "N/A",
             },
           ].map(({ label, value }) => (

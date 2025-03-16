@@ -1,21 +1,24 @@
+import { PageProps } from "next"; // Import Next.js PageProps
 import Image from "next/image";
 
 const fetchCountryData = async (country: string) => {
   try {
     const response = await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`, {
-      cache: "no-store", // Ensures fresh data every request
+      cache: "no-store",
     });
     if (!response.ok) throw new Error("Country not found");
     const data = await response.json();
     return data[0];
   } catch (error) {
-    console.log(error) // Fixed unused variable issue
+    console.log(error); // Fixed unused variable issue
     return null;
   }
 };
 
-const CountryInfo = async ({ params }: { params: { country: string } }) => {
+// ✅ Fix: Use `PageProps` for params
+const CountryInfo = async ({ params }: PageProps<{ country: string }>) => {
   const countryData = await fetchCountryData(params.country);
+  
   if (!countryData) {
     return (
       <div className="h-screen flex items-center justify-center text-white bg-gray-900">
@@ -62,7 +65,7 @@ const CountryInfo = async ({ params }: { params: { country: string } }) => {
             {
               label: "Languages",
               value: countryData.languages
-                ? Object.values(countryData.languages).map((lang: string) => lang).join(", ")
+                ? Object.values(countryData.languages).join(", ")
                 : "N/A",
             },
           ].map(({ label, value }) => (
